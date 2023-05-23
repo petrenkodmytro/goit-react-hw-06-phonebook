@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from 'components/App';
 import { ThemeProvider } from 'styled-components';
-// import './index.css';
+// redux
+import { Provider } from 'react-redux';
+
 
 const theme = {
   colors: {
@@ -16,8 +18,15 @@ const theme = {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    {/* Після створення стору необхідно зв'язати його з компонентами React, щоб
+    вони могли отримувати доступ до стору та його методів. Для цього у
+    бібліотеці React Redux є компонент Provider, котрий чекає однойменний пропс
+    store. Для того щоб будь-який компонент у додатку міг використовувати стор,
+    обертаємо Provider все дерево компонентів. */}
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 );
