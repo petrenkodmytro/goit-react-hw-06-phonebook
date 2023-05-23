@@ -4,6 +4,7 @@ import { App } from 'components/App';
 import { ThemeProvider } from 'styled-components';
 // redux
 import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 
 const theme = {
   colors: {
@@ -22,7 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     бібліотеці React Redux є компонент Provider, котрий чекає однойменний пропс
     store. Для того щоб будь-який компонент у додатку міг використовувати стор,
     обертаємо Provider все дерево компонентів. */}
-    <Provider>
+    <Provider store={store}>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
