@@ -12,6 +12,7 @@ import {
   notificationOptions,
 } from './Notification/Notification';
 import { SectionTitle } from './Title/Title';
+import { useDispatch, useSelector } from 'react-redux';
 
 // фун-я инициализатор начального состояния contacts
 const getInitialContacts = () => {
@@ -29,6 +30,12 @@ const getInitialContacts = () => {
 export const App = () => {
   const [contacts, setContacts] = useState(getInitialContacts);
   const [filter, setFilter] = useState('');
+
+  const state = useSelector(state => state);
+  console.log('useSelector', state);
+
+  const dispatch = useDispatch();
+  console.log('dispatch', dispatch);
 
   useEffect(() => {
     // массив зависимости - это под капотом оператор if
