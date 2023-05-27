@@ -20,13 +20,16 @@ const contactsConfig = {
   storage,
 };
 
+// store - містить повний стан програми, методи доступу до стану та відправлення екшенів. У програмі може бути лише один стор. Для створення стора є функція createStore(), яка приймає кілька параметрів та повертає новий об'єкт стора.
+
+// Redux Toolkit надає функцію configureStore(options), яка обертає оригінальний createStore(), єдиним аргументом очікує об'єкт параметрів та налаштовує деякі корисні інструменти розробки як частина процесу створення стора.
 export const store = configureStore({
   reducer: {
     contacts: persistReducer(contactsConfig, contactsReducer),
     filter: filterReducer,
   },
 
-  // це для того щоб не було помилки при записі в localStorage
+  // окрема властивість middleware, яка є ф-єю фільтратором для localStorage між відправкою actions adn reduser
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -35,4 +38,5 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store); // створюємо persistor для нашого store
+// створюємо persistor для нашого store
+export const persistor = persistStore(store); 
