@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
@@ -13,6 +11,14 @@ import {
   LabelWrapper,
   FieldInput,
 } from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
+import { getContacts } from 'redux/selectors';
+import {
+  notificationMassege,
+  notificationOptions,
+} from 'components/Notification/Notification';
+import { toast } from 'react-toastify';
 
 // валідація полів форми
 const ContactSchema = Yup.object().shape({
@@ -30,14 +36,37 @@ const ContactSchema = Yup.object().shape({
     .required(),
 });
 
-export const ContactForm = ({ onSave }) => {
+export const ContactForm = () => {
+  // Для того щоб сповістити сторінку про те, що в інтерфейсі відбулася якась подія, необхідно відправити екшен. Для цього у бібліотеці React Redux є хук useDispatch(), який повертає посилання на функцію надсилання екшенів dispatch з об'єкта створеного нами раніше стора Redux.
+  const dispatch = useDispatch();
+  // Отримуємо необхідну частину стану зі стору
+  const contacts = useSelector(getContacts);
+
+  // console.log(getContacts);
+
   return (
     <Formik
       // дивись документацію
       initialValues={{ name: '', number: '' }}
       validationSchema={ContactSchema}
       onSubmit={(values, actions) => {
-        onSave({ ...values, id: nanoid() });
+        // перевірка на існуюче ім'я контакту
+        if (
+          contacts.some(
+            contact =>
+              contact.name.toLocaleLowerCase() ===
+              values.name.toLocaleLowerCase()
+          )
+        ) {
+          // повідомлення
+          toast.error(
+            `${values.name} ${notificationMassege}`,
+            notificationOptions
+          );
+          return;
+        }
+        dispatch(addContact({ ...values, id: nanoid() }));
+        // console.log(values);
         actions.resetForm();
       }}
     >
@@ -59,6 +88,7 @@ export const ContactForm = ({ onSave }) => {
           <FieldInput name="number" />
           <ErrorMessage name="number" component="div" />
         </FormField>
+
         <FormBtnAdd type="submit">
           <FaUserPlus size="16" />
           Add contact
@@ -66,8 +96,4 @@ export const ContactForm = ({ onSave }) => {
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSave: PropTypes.func.isRequired,
 };

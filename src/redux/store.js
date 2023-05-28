@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import { contactsReducer } from './contactsSlice';
 import { filterReducer } from './filterSlice';
 
-// налаштування для redux-persist
+// налаштування для redux-persist (localStorage)
 const contactsConfig = {
   key: 'contacts',
   storage,
@@ -29,7 +29,7 @@ export const store = configureStore({
     filter: filterReducer,
   },
 
-  // окрема властивість middleware, яка є ф-єю фільтратором для localStorage між відправкою actions adn reduser
+  // окрема властивість middleware, яка є ф-єю фільтратором для localStorage між відправкою actions and reduser
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -39,4 +39,4 @@ export const store = configureStore({
 });
 
 // створюємо persistor для нашого store
-export const persistor = persistStore(store); 
+export const persistor = persistStore(store);

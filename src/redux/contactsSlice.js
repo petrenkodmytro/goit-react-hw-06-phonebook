@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import initialContacts from './contacts.json';
+import initialContacts from '../components/contacts.json';
 
 const initialState = {
+  // ініціалізація із файлу contact.json
   items: initialContacts,
 };
 
@@ -16,14 +17,14 @@ const contactsSlice = createSlice({
     addContact: (state, action) => {
       state.items = [...state.items, action.payload];
     },
+    // видаляємо елемент з масиву по id
     deleteContact: (state, action) => {
-      // видаляємо елемент з масиву по id
       state.items = state.items.filter(item => item.id !== action.payload);
     },
   },
 });
 
-console.log(contactsSlice);
+// console.log(contactsSlice);
 
 export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

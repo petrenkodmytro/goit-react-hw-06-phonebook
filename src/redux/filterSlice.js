@@ -1,11 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const filterSlice = createSlice({
+  //назва поля в нашому стейті
   name: 'filter',
+  //початковий стан
   initialState: '',
+  //редюсери
   reducers: {
     setFilter: (state, action) => {
-      return action.payload; // це буде значення фільтра (пошукового запиту)
+      //значення фільтра (пошукового запиту)
+      return action.payload;
     },
   },
 });
